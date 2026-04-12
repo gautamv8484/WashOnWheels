@@ -8,7 +8,8 @@
 [![Express](https://img.shields.io/badge/Express-4.18-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
 [![Vite](https://img.shields.io/badge/Vite-5.0-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
 
-![WashOnWheels Banner])
+<img width="1536" height="1024" alt="Mobile car wash service in action" src="https://github.com/user-attachments/assets/60e5c89c-8984-4f8a-aff3-b1452c22c51c" />
+
 
 
 ## 📋 Table of Contents
