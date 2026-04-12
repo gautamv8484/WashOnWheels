@@ -8,7 +8,7 @@
 [![Express](https://img.shields.io/badge/Express-4.18-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
 [![Vite](https://img.shields.io/badge/Vite-5.0-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
 
-![WashOnWheels Banner](https://via.placeholder.com/1200x400/4F46E5/ffffff?text=🚗+WashOnWheels+-+Doorstep+Car+Wash+Service)
+![WashOnWheels Banner])
 
 
 ## 📋 Table of Contents
