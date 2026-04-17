@@ -3,18 +3,24 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
 
-const complaintRoutes = require('./routes/complaints');
-
-// Add with other app.use()
-
-
-// Load environment variables
+// Load environment variables FIRST
 dotenv.config();
 
 const app = express();
 
-// Middleware
-app.use(cors());
+// ✅ CORS - Updated for production
+app.use(cors({
+  origin: [
+    'http://localhost:5173',
+    'http://localhost:3000',
+    process.env.FRONTEND_URL,
+    'https://washonwheels.vercel.app'
+  ].filter(Boolean),
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -24,13 +30,8 @@ app.use((req, res, next) => {
   next();
 });
 
-
-
-// Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
+// ✅ MongoDB Connection
+mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log('✅ MongoDB Connected Successfully');
     console.log(`📊 Database: ${mongoose.connection.name}`);
@@ -39,57 +40,36 @@ mongoose.connect(process.env.MONGO_URI, {
     console.error('❌ MongoDB Connection Error:', err.message);
   });
 
-// Import routes
+// ✅ Import All Routes
 const authRoutes = require('./routes/auth');
 const bookingRoutes = require('./routes/bookings');
 const subscriptionRoutes = require('./routes/subscriptions');
 const contactRoutes = require('./routes/contact');
+const complaintRoutes = require('./routes/complaints');
 
-// API Routes
+// ✅ Use All Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/subscriptions', subscriptionRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/complaints', complaintRoutes);
 
-// Root route
+// ✅ Root Route
 app.get('/', (req, res) => {
   res.json({
     message: '🚗 WashOnWheels API Server',
     status: 'active',
     version: '1.0.0',
-    timestamp: new Date().toISOString(),
-    endpoints: {
-      auth: {
-        register: 'POST /api/auth/register',
-        login: 'POST /api/auth/login',
-        profile: 'GET /api/auth/me'
-      },
-      bookings: {
-        create: 'POST /api/bookings',
-        getAll: 'GET /api/bookings',
-        getById: 'GET /api/bookings/:id',
-        update: 'PATCH /api/bookings/:id',
-        delete: 'DELETE /api/bookings/:id'
-      },
-      subscriptions: {
-        create: 'POST /api/subscriptions',
-        getAll: 'GET /api/subscriptions',
-        getById: 'GET /api/subscriptions/:id',
-        update: 'PATCH /api/subscriptions/:id',
-        cancel: 'DELETE /api/subscriptions/:id'
-      },
-      contact: {
-        create: 'POST /api/contact',
-        getAll: 'GET /api/contact'
-      }
-    }
+    timestamp: new Date().toISOString()
   });
 });
 
-// Health check route
+// ✅ Health Check
 app.get('/api/health', (req, res) => {
-  const dbStatus = mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected';
+  const dbStatus = mongoose.connection.readyState === 1
+    ? 'Connected'
+    : 'Disconnected';
+
   res.json({
     status: 'OK',
     timestamp: new Date().toISOString(),
@@ -99,7 +79,7 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// 404 handler
+// ✅ 404 Handler
 app.use((req, res) => {
   res.status(404).json({
     success: false,
@@ -108,7 +88,7 @@ app.use((req, res) => {
   });
 });
 
-// Global error handler
+// ✅ Global Error Handler
 app.use((err, req, res, next) => {
   console.error('❌ Error:', err.stack);
   res.status(err.status || 500).json({
@@ -118,7 +98,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Start server
+// ✅ Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
@@ -128,12 +108,11 @@ app.listen(PORT, () => {
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
 });
 
-// Handle unhandled promise rejections
+// ✅ Handle Rejections
 process.on('unhandledRejection', (err) => {
   console.error('❌ Unhandled Promise Rejection:', err);
 });
 
-// Handle uncaught exceptions
 process.on('uncaughtException', (err) => {
   console.error('❌ Uncaught Exception:', err);
   process.exit(1);
