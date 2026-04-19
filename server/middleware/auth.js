@@ -18,14 +18,21 @@ const protect = async (req, res, next) => {
 
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      req.user = await User.findById(decoded.userId).select('-password');
       
-      if (!req.user) {
+      // ✅ decoded.userId use karo (auth.js se match)
+      const user = await User.findById(decoded.userId).select('-password');
+      
+      if (!user) {
         return res.status(404).json({
           success: false,
           message: 'User not found'
         });
       }
+
+      // ✅ req.user set karo with all fields
+      req.user = user;
+      
+      console.log('✅ Auth user:', req.user._id, req.user.phone); // debug
 
       next();
     } catch (error) {
@@ -47,7 +54,7 @@ const authorize = (...roles) => {
     if (!roles.includes(req.user.role)) {
       return res.status(403).json({
         success: false,
-        message: `User role '${req.user.role}' is not authorized to access this route`
+        message: `User role '${req.user.role}' is not authorized`
       });
     }
     next();

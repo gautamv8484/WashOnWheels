@@ -24,15 +24,15 @@ const Contact = () => {
     {
       icon: <FaPhone />,
       title: 'Call Us',
-      info: '+91 98765 43210',
-      link: 'tel:+919876543210',
+      info: '+91 9974837395',
+      link: 'tel:+919974837395',
       color: '#4F46E5'
     },
     {
       icon: <FaWhatsapp />,
       title: 'WhatsApp',
-      info: '+91 98765 43210',
-      link: 'https://wa.me/919876543210',
+      info: '+91 99748 37395',
+      link: 'https://wa.me/919974837395',
       color: '#25D366'
     },
     {
@@ -56,7 +56,7 @@ const Contact = () => {
     setLoading(true)
 
     try {
-      await axios.post('/api/contact', formData)
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/contact`, formData)
       toast.success('Message sent successfully! We will contact you soon.')
       setFormData({ name: '', email: '', phone: '', subject: '', message: '' })
     } catch (error) {

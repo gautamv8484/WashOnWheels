@@ -5,13 +5,11 @@ const AuthContext = createContext(null)
 
 const API_URL = import.meta.env.VITE_API_URL + '/api'
 
-
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
 
-  // Check if user is logged in on page load
   useEffect(() => {
     const token = localStorage.getItem('token')
     const userData = localStorage.getItem('user')
@@ -19,14 +17,11 @@ export const AuthProvider = ({ children }) => {
     if (token && userData) {
       setUser(JSON.parse(userData))
       setIsAuthenticated(true)
-      
-      // Set default authorization header
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
     }
     setLoading(false)
   }, [])
 
-  // Register
   const register = async (formData) => {
     try {
       const response = await axios.post(`${API_URL}/auth/register`, formData)
@@ -36,7 +31,6 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
-  // Login
   const login = async (email, password) => {
     try {
       const response = await axios.post(`${API_URL}/auth/login`, { email, password })
@@ -55,7 +49,6 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
-  // Logout
   const logout = () => {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
@@ -64,16 +57,15 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(false)
   }
 
-  // Update user data
   const updateUser = (userData) => {
     localStorage.setItem('user', JSON.stringify(userData))
     setUser(userData)
   }
 
-  // Get user bookings
+  // ✅ Fixed - phone nahi, token use karo
   const getMyBookings = async () => {
     try {
-      const response = await axios.get(`${API_URL}/bookings/my-bookings?phone=${user?.phone}`)
+      const response = await axios.get(`${API_URL}/bookings/my-bookings`)
       return response.data.bookings || []
     } catch (error) {
       console.error('Error fetching bookings:', error)
@@ -81,7 +73,6 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
-  // Get user subscriptions
   const getMySubscriptions = async () => {
     try {
       const response = await axios.get(`${API_URL}/subscriptions?phone=${user?.phone}`)

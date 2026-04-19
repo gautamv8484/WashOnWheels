@@ -16,7 +16,7 @@ const Login = () => {
     password: ''
   })
 
-  const from = location.state?.from || '/my-dashboard'
+const from = location.state?.from || '/my-dashboard'
 
   // ✅ CORRECT - Redirect inside useEffect
   useEffect(() => {
@@ -26,24 +26,37 @@ const Login = () => {
   }, [isAuthenticated, navigate])
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+  e.preventDefault()
 
-    if (!formData.email || !formData.password) {
-      toast.warning('Please fill in all fields')
-      return
-    }
-
-    setLoading(true)
-    try {
-      await login(formData.email, formData.password)
-      toast.success('🎉 Welcome back!')
-      navigate(from)
-    } catch (error) {
-      toast.error(error.message || 'Login failed')
-    } finally {
-      setLoading(false)
-    }
+  if (!formData.email || !formData.password) {
+    toast.warning('Please fill in all fields')
+    return
   }
+
+  setLoading(true)
+  try {
+    await login(formData.email, formData.password)
+    toast.success('🎉 Welcome back!')
+    
+    // ✅ Agar service data hai state mein toh booking pe bhejo with data
+    if (location.state?.from === '/booking' && location.state?.serviceName) {
+      navigate('/booking', {
+        state: {
+          serviceName: location.state.serviceName,
+          servicePrice: location.state.servicePrice,
+          serviceDuration: location.state.serviceDuration,
+          serviceColor: location.state.serviceColor
+        }
+      })
+    } else {
+      navigate(from)
+    }
+  } catch (error) {
+    toast.error(error.message || 'Login failed')
+  } finally {
+    setLoading(false)
+  }
+}
 
   return (
     <div style={{
