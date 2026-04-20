@@ -89,10 +89,15 @@ const createBooking = async (req, res) => {
 const getBookings = async (req, res) => {
   try {
     const { phone, status } = req.query
-    let query = {}
 
-    // ✅ Phone optional hai
-    if (phone) query.phone = phone
+    if (!phone) {
+      return res.status(400).json({
+        success: false,
+        message: 'Phone number required'
+      })
+    }
+
+    let query = { phone }
     if (status) query.status = status
 
     const bookings = await Booking.find(query).sort({ createdAt: -1 })
