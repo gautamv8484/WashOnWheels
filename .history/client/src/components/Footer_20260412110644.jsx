@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { FaCar, FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaPhone, FaEnvelope, FaMapMarkerAlt, FaWhatsapp, FaUserShield } from 'react-icons/fa'
+import { FaCar, FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaPhone, FaEnvelope, FaMapMarkerAlt, FaWhatsapp } from 'react-icons/fa'
 
 const Footer = () => {
   const currentYear = new Date().getFullYear()
@@ -102,8 +102,6 @@ const Footer = () => {
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
-      flexWrap: 'wrap',
-      gap: '15px'
     },
     bottomText: {
       color: '#64748b',
@@ -111,27 +109,12 @@ const Footer = () => {
     bottomLinks: {
       display: 'flex',
       gap: '30px',
-      alignItems: 'center',
-      flexWrap: 'wrap'
     },
     bottomLink: {
       color: '#64748b',
       textDecoration: 'none',
       transition: 'all 0.3s',
     },
-    adminLink: {
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: '6px',
-      color: '#4F46E5',
-      textDecoration: 'none',
-      fontWeight: '600',
-      fontSize: '0.9rem',
-      padding: '8px 14px',
-      border: '1px solid rgba(79, 70, 229, 0.3)',
-      borderRadius: '20px',
-      background: 'rgba(79, 70, 229, 0.08)'
-    }
   }
 
   return (
@@ -242,12 +225,6 @@ const Footer = () => {
           <div style={styles.bottomLinks}>
             <Link to="/privacy" style={styles.bottomLink}>Privacy Policy</Link>
             <Link to="/terms" style={styles.bottomLink}>Terms of Service</Link>
-
-            {/* ✅ Admin Login Button */}
-            <Link to="/admin/login" style={styles.adminLink}>
-              <FaUserShield />
-              Admin Login
-            </Link>
           </div>
         </div>
       </div>
