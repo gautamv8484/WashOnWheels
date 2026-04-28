@@ -90,7 +90,7 @@ const Navbar = () => {
           <span style={{
             fontSize: '1.6rem',
             fontWeight: '700',
-            color: scrolled ? '#1e293b' : 'white',
+            // color: scrolled ? '#1e293b' : 'white',
             transition: 'color 0.3s'
           }}>
             Wash<span style={{ color: '#4F46E5' }}>OnWheels</span>
@@ -110,7 +110,7 @@ const Navbar = () => {
               key={link.path}
               to={link.path}
               style={{
-                color: scrolled ? '#1e293b' : 'rgba(255, 255, 255, 0.95)',
+                // color: scrolled ? '#1e293b' : 'rgba(255, 255, 255, 0.95)',
                 fontSize: '1rem',
                 fontWeight: location.pathname === link.path ? '600' : '500',
                 textDecoration: 'none',

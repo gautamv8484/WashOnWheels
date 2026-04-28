@@ -6,6 +6,7 @@
   padding: 15px 5%;
   z-index: 1000;
   transition: all 0.3s;
+  color: black;
 }
 
 .navbar.scrolled {
@@ -53,7 +54,7 @@
 }
 
 .nav-link {
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(0, 0, 0, 0.9);
   font-size: 1rem;
   font-weight: 500;
   transition: all 0.3s;
